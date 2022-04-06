@@ -1,14 +1,17 @@
 - content_for(:title) { abbr_subject(@certificate_authority.subject) }
 
 - if false
-  .alert.alert-danger
+  .notification.is-warning
     %p The Certification Authority's Certificates Revokation List (CLR) needs updating.
     %p
-      = link_to content_tag(:i, "", class: "fa fa-refresh") + " Update the Certificates Revokation List", "", class: "btn btn-danger"
-      = link_to "Ignore", "", class: "btn btn-default"
+      = link_to "", class: "button" do
+        %span.icon
+          = content_tag(:i, "", class: "fa fa-refresh")
+        %span Update the Certificates Revokation List
+      = link_to "Ignore", "", class: "button"
 
-.row
-  .col-lg-8
+.columns
+  .column.is-two-thirds
     %p
       %b Subject:
       %br
@@ -41,23 +44,16 @@
       %b CRL expiration date
       %br
       = @certificate_authority.crl_ttl
-  .col-lg-4
-    .panel.panel-default
-      .panel-heading
-        .panel-title
-          = t(".managers")
-          = link_to content_tag(:i, "", class: "fa fa-edit") + " " + t(".users"), certificate_authority_users_path(@certificate_authority), class: "btn btn-link btn-xs pull-right"
-          .badge= @certificate_authority.users.count
-      .panel-body
-        - @certificate_authority.users.each do |user|
-          - if user == current_user
-            .label.label-primary= user.email
-          - else
-            .label.label-default= user.email
-
-    = link_to t(".download_pem"), certificate_authority_path(@certificate_authority, format: "pem"), class: "btn btn-default btn-block"
-    = link_to t(".download_chain_pem"), full_chain_certificate_authority_path(@certificate_authority, format: "pem"), class: "btn btn-default btn-block"
-    = link_to t(".download_der"), certificate_authority_path(@certificate_authority, format: "der"), class: "btn btn-default btn-block"
-    = link_to t(".download_crl"), certificate_authority_path(@certificate_authority, format: "crl"), class: "btn btn-default btn-block"
-    = link_to t(".manage_certificates"), certificate_authority_certificates_path(@certificate_authority), class: "btn btn-primary btn-block"
-    = link_to t(".edit"), edit_certificate_authority_path(@certificate_authority), class: "btn btn-default btn-block"
+  .column
+    %aside.menu
+      %p.menu-label Management
+      %ul.menu-list
+        %li= link_to t(".manage_certificates"), certificate_authority_certificates_path(@certificate_authority)
+        %li= link_to t(".manage_users"), certificate_authority_users_path(@certificate_authority)
+        %li= link_to t(".edit"), edit_certificate_authority_path(@certificate_authority)
+      %p.menu-label Downloads
+      %ul.menu-list
+        %li= link_to t(".download_pem"), certificate_authority_path(@certificate_authority, format: "pem")
+        %li= link_to t(".download_der"), certificate_authority_path(@certificate_authority, format: "der")
+        %li= link_to t(".download_chain_pem"), full_chain_certificate_authority_path(@certificate_authority, format: "pem")
+        %li= link_to t(".download_crl"), certificate_authority_path(@certificate_authority, format: "crl")

@@ -8,7 +8,7 @@ describe CertificateAuthoritiesController, type: :controller do
     sign_in(admin)
   end
 
-  describe "policy" do
+  describe "with a policy" do
     let(:policy) do
       policy = create(:policy)
       create(:subject_attribute, policy: policy, position: 1, oid: Oid.find_by(short_name: "C"), default: "FR", min: 2, max: 2, strategy: "match")

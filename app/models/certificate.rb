@@ -1,9 +1,17 @@
 # frozen_string_literal: true
 
-class Certificate < ActiveRecord::Base
+class Certificate < ApplicationRecord
   belongs_to :issuer, class_name: "CertificateAuthority", optional: true
 
   attr_accessor :method, :csr, :export_name
+
+  validate :valid_subject
+
+  def valid_subject
+    OpenSSL::X509::Name.parse(subject)
+  rescue TypeError
+    errors.add(:subject, "is malformed")
+  end
 
   before_validation do
     if certificate_changed? then

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-class SubjectAttribute < ActiveRecord::Base
+class SubjectAttribute < ApplicationRecord
   acts_as_list
 
-  validates :oid, presence: true
-  validates :policy, presence: true
+  validates :oid_id, presence: true
+  validates :policy_id, presence: true
   validate :default do
     validates_length_of :default, minimum: min, allow_blank: true if min
     validates_length_of :default, maximum: max, allow_blank: true if max

@@ -1,9 +1,9 @@
 - content_for(:title) { abbr_subject(@certificate.subject) }
 
-.row
-  .col-lg-8
+.columns
+  .column.is-two-thirds
     - if @certificate.revoked_at
-      .alert.alert-danger
+      .notification.is-danger
         %h4 Certificate revoked
         %p
           This certificate was revoked on
@@ -31,8 +31,13 @@
       %b Certificate
       %pre= @certificate.certificate
 
-  .col-lg-4
-    = link_to t(".download_pem"), certificate_authority_certificate_path(@certificate_authority, @certificate, format: "pem"), class: "btn btn-default btn-block"
-    = link_to t(".download_der"), certificate_authority_certificate_path(@certificate_authority, @certificate, format: "der"), class: "btn btn-default btn-block"
-    - if @certificate.revoked_at.nil?
-      = link_to t(".revoke"), revoke_certificate_authority_certificate_path(@certificate_authority, @certificate), method: :patch, data: { confirm: t(".confirm") }, class: "btn btn-warning btn-block"
+  .column
+    %aside.menu
+      %p.menu-label Downloads
+      %ul.menu-list
+        %li= link_to t(".download_pem"), certificate_authority_certificate_path(@certificate_authority, @certificate, format: "pem")
+        %li= link_to t(".download_der"), certificate_authority_certificate_path(@certificate_authority, @certificate, format: "der")
+      - if @certificate.revoked_at.nil?
+        %p.menu-label Danger zone
+        %ul.menu-list
+          = link_to t(".revoke"), revoke_certificate_authority_certificate_path(@certificate_authority, @certificate), data: { turbo_method: :patch, turbo_confirm: t(".confirm") }

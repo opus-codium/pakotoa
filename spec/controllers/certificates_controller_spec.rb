@@ -3,8 +3,9 @@
 require "rails_helper"
 
 describe CertificatesController, type: :controller do
+  let(:admin) { create(:user, id: 1) }
+
   before do
-    admin = create(:user, id: 1)
     sign_in(admin)
   end
 
@@ -19,7 +20,11 @@ describe CertificatesController, type: :controller do
 
     policy
   end
-  let!(:ca) { create(:certificate_authority, subject: "/C=FR/O=Pakotoa/CN=Test CA/emailAddress=pakotoa@example.com", policy: policy) }
+  let!(:ca) do
+    ca = create(:certificate_authority, subject: "/C=FR/O=Pakotoa/CN=Test CA/emailAddress=pakotoa@example.com", policy: policy)
+    ca.users << admin
+    ca
+  end
   let(:key) { OpenSSL::PKey::RSA.new(1024) }
   let(:csr) do
     csr = OpenSSL::X509::Request.new

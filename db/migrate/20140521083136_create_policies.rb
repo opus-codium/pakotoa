@@ -7,7 +7,7 @@ class CreatePolicies < ActiveRecord::Migration[4.2]
     end
 
     # Existing data would be broken
-    SubjectAttribute.delete_all
+    truncate :subject_attributes
 
     add_column :certificates, :policy_id, :integer
     rename_column :subject_attributes, :certificate_authority_id, :policy_id

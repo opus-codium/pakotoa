@@ -4,3 +4,9 @@ en:
       title: Policies
       destroy: Destroy
       confirm: Are you sure?
+      edit: Edit
+      new: New policy
+    new:
+      title: New policy
+    form:
+      back: Back

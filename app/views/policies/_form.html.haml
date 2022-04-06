@@ -1,3 +1,4 @@
 = simple_form_for policy do |f|
   = f.input :name
-  = f.submit class: "btn btn-primary"
+  = f.submit class: "button is-primary"
+  = link_to t(".back"), policy.persisted? ? policy_path(policy) : policies_path, class: "button"

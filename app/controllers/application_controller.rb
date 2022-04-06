@@ -1,32 +1,9 @@
 # frozen_string_literal: true
 
-require "application_responder"
-
 class ApplicationController < ActionController::Base
-  self.responder = ApplicationResponder
-  respond_to :html
-
-  include ApplicationHelper
-
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
-
-  # Automagically call foo_params() to sanitize params[:foo]
-  # Required for load_and_authorize_resource properly creating and updating models.
-  before_action do
-    resource = controller_name.singularize.to_sym
-    method = "#{resource}_params"
-    params[resource] &&= send(method) if respond_to?(method, true)
-  end
+  before_action :authenticate_user!
 
   around_action :apply_user_preferences
-
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to new_user_session_path
-  end
-
-  check_authorization unless: :devise_controller?
 
   def add_breadcrumb(title, url)
     @breadcrumb ||= []

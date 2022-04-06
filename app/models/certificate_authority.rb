@@ -7,18 +7,19 @@ class CertificateAuthority < Certificate
   belongs_to :policy, optional: true
 
   validates :password, confirmation: true
+  validates :subject, presence: true
 
   attr_accessor :key_length, :password, :issuer_password, :valid_until
 
   after_initialize do
     self.key_length ||= 2048
-    self.next_serial ||= 1
+    self.next_serial ||= Random.rand(2**64)
     self.valid_until ||= "20 years from now"
   end
 
   def next_serial!
     serial = self.next_serial.try(:to_i)
-    update!(next_serial: (next_serial || 0) + 1)
+    update!(next_serial: next_serial + 1)
     serial
   end
 

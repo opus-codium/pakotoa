@@ -10,16 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_25_182819) do
-
+ActiveRecord::Schema[7.0].define(version: 2020_08_25_182819) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "affiliations", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "certificate_authority_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["certificate_authority_id"], name: "index_affiliations_on_certificate_authority_id"
     t.index ["user_id"], name: "index_affiliations_on_user_id"
   end
@@ -27,18 +26,18 @@ ActiveRecord::Schema.define(version: 2020_08_25_182819) do
   create_table "certificates", id: :serial, force: :cascade do |t|
     t.string "serial"
     t.integer "issuer_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "type", default: "Certificate"
     t.string "subject"
     t.text "certificate"
-    t.datetime "not_before"
-    t.datetime "not_after"
+    t.datetime "not_before", precision: nil
+    t.datetime "not_after", precision: nil
     t.text "key"
     t.decimal "next_serial"
     t.integer "policy_id"
     t.string "export_root"
-    t.datetime "revoked_at"
+    t.datetime "revoked_at", precision: nil
     t.string "certify_for", default: "2 years from now"
     t.string "crl_ttl", default: "1 week from now"
     t.index ["issuer_id"], name: "index_certificates_on_issuer_id"
@@ -48,8 +47,8 @@ ActiveRecord::Schema.define(version: 2020_08_25_182819) do
     t.string "name"
     t.string "short_name"
     t.string "oid"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "default_description"
   end
 
@@ -65,8 +64,8 @@ ActiveRecord::Schema.define(version: 2020_08_25_182819) do
     t.integer "max"
     t.string "strategy"
     t.integer "position"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "description"
     t.index ["oid_id"], name: "index_subject_attributes_on_oid_id"
     t.index ["policy_id"], name: "index_subject_attributes_on_policy_id"
@@ -75,12 +74,12 @@ ActiveRecord::Schema.define(version: 2020_08_25_182819) do
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.integer "sign_in_count", default: 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "time_zone"
     t.string "encrypted_password", default: "", null: false
     t.index ["email"], name: "index_users_on_email", unique: true

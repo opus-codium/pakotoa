@@ -2,6 +2,7 @@ en:
   certificate_authorities:
     edit:
       title: Edit Certification Authority
+      back: Back
     form:
       back: Back
       save: Save
@@ -16,6 +17,7 @@ en:
       title: Create Certification Authority
     show:
       attributes: Manage Subject Attributes
+      manage_users: Manage Users
       back: Back
       commit: Commit
       creating_ca_title: Creating a Certification Authority

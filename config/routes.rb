@@ -21,8 +21,8 @@ Rails.application.routes.draw do
   end
   resources :policies do
     resources :subject_attributes do
-      collection do
-        post :sort
+      member do
+        patch :move
       end
     end
   end

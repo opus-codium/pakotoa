@@ -1,38 +1,24 @@
 # README
 
-* Ruby version
+This README would normally document whatever steps are necessary to get the
+application up and running.
 
-1.9.3+ (2.0.0+ recommended).
+Things you may want to cover:
+
+* Ruby version
 
 * System dependencies
 
-```
-bundle install
-```
-
 * Configuration
-
-A few files have to be created.  For each one, a *sample* file is available for
-further guidance:
-
-```
-config/database.yml
-```
 
 * Database creation
 
-```
-bin/rake db:migrate
-```
-
 * Database initialization
-
-```
-bin/rake db:seed
-```
 
 * How to run the test suite
 
-```
-bin/rake test
-```
+* Services (job queues, cache servers, search engines, etc.)
+
+* Deployment instructions
+
+* ...

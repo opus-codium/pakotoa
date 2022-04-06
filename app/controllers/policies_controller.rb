@@ -1,37 +1,48 @@
 # frozen_string_literal: true
 
 class PoliciesController < ApplicationController
-  load_and_authorize_resource :policy
-
   def index
-    respond_with @policies
+    @policies = Policy.all
   end
 
   def new
-    respond_with @policy
+    @policy = Policy.new
   end
 
   def create
-    @policy.save
-    respond_with @policy
+    @policy = Policy.new(policy_params)
+    if @policy.save
+      redirect_to @policy, notice: "Policy was successfully created."
+    else
+      render "new", status: :unprocessable_entity
+    end
   end
 
   def show
+    @policy = Policy.find(params[:id])
     redirect_to policy_subject_attributes_path(@policy)
   end
 
   def edit
-    respond_with @policy
+    @policy = Policy.find(params[:id])
   end
 
   def update
-    @policy.update(policy_params)
-    respond_with @policy
+    @policy = Policy.find(params[:id])
+    if @policy.update(policy_params)
+      redirect_to @policy, notice: "Policy was successfully updated."
+    else
+      render "edit", status: :unprocessable_entity
+    end
   end
 
   def destroy
-    @policy.destroy
-    respond_with @policy
+    @policy = Policy.find(params[:id])
+    if @policy.destroy
+      redirect_to policies_path, notice: "Policy was successfully removed."
+    else
+      redirect_to policies_path, alert: "Cannot remove policy."
+    end
   end
 
 private

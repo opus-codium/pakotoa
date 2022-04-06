@@ -1,9 +1,0 @@
-#!/bin/sh -
-
-set -ex
-
-bundle install --deployment --without development test
-bundle exec rails db:prepare
-bundle exec rails assets:precompile
-
-touch tmp/restart.txt

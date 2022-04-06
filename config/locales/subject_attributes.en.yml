@@ -13,7 +13,10 @@ en:
       back: Back
     index:
       title: Subject attributes
+      confirm: Are you sure?
     new:
       title: New subject attribute
     show:
       title: "%{attribute_name}"
+      edit: Edit
+      back: Back
