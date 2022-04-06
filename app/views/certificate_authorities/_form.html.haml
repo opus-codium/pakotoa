@@ -10,5 +10,5 @@
   = f.input :issuer_password
   = f.input :export_root
   = f.input :crl_ttl
-  = f.submit t(".save"), class: "btn btn-primary"
-  = link_to t(".back"), (certificate_authority.persisted? ? certificate_authority_path(certificate_authority) : certificate_authorities_path), class: "btn btn-link"
+  = f.submit t(".save"), class: "button is-primary"
+  = link_to t(".back"), (certificate_authority.persisted? ? certificate_authority_path(certificate_authority) : certificate_authorities_path), class: "button"

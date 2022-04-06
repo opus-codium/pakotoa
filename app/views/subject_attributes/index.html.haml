@@ -1,6 +1,6 @@
 - content_for(:title) { @policy.name }
 
-%table.table.table-striped
+%table.table.is-striped.is-fullwidth
   %thead
     %tr
       %th Object
@@ -11,43 +11,18 @@
       %th Strategy
       %th
       %th
-
-  %tbody.sortable{ data: { "sort-url" => sort_policy_subject_attributes_url(@policy) } }
+  %tbody.sortable{ data: { controller: "sortable", drag_url: move_policy_subject_attribute_url(@policy, ":id") } }
     - @subject_attributes.each do |attribute|
-      %tr{ id: "subject_attribute_#{attribute.id}" }
+      %tr{ data: { id: attribute.id } }
         %td
-          -# haml-lint:disable InlineStyles
-          %i.fa.fa-exchange.fa-rotate-90{ style: "cursor: move" }
-          -# haml-lint:enable InlineStyles
+          %i.fa.fa-exchange.fa-rotate-90
           = link_to attribute.oid.name, [@policy, attribute]
         %td= attribute.description
         %td= attribute.default
         %td= attribute.min
         %td= attribute.max
         %td= attribute.strategy
-        %td= link_to "Edit", edit_policy_subject_attribute_path(@policy, attribute), class: "btn btn-xs btn-link"
-        %td= link_to "Destroy", [@policy, attribute], method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-xs"
+        %td= link_to "Edit", edit_policy_subject_attribute_path(@policy, attribute)
+        %td= link_to "Destroy", [@policy, attribute], data: { turbo_method: :delete, turbo_confirm: t(".confirm") }
 
-= link_to "New Attribute", new_policy_subject_attribute_path(@policy), class: "btn btn-default"
-
-:javascript
-  document.addEventListener("turbolinks:load", () => {
-    const selector = "table tbody.sortable"
-    console.log($(selector).length)
-    $(selector).sortable({
-      axis: 'y',
-      handle: 'i',
-      helper: (e, tr) => {
-        var originals = tr.children()
-        var helper = tr.clone()
-        helper.children().each( (index) => {
-          // Set helper cell sizes to match the original sizes
-          $(this).width(originals.eq(index).width())
-        })
-        return helper
-      },
-      update: () => {
-        $.post($(selector).data('sort-url'), $(selector).sortable('serialize'))
-      }
-    }).disableSelection()
-  })
+= link_to "New Attribute", new_policy_subject_attribute_path(@policy), class: "button"

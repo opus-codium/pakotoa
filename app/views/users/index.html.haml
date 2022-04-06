@@ -1,6 +1,6 @@
 - content_for(:title) { t(".title") }
 
-%table.table.table-striped
+%table.table.is-striped.is-fullwidth
   %thead
     %tr
       %th E-mail
@@ -10,17 +10,9 @@
       %tr
         %td= user.email
         %td
-          - if current_user.id == 1 || user != current_user
+          - if user == current_user
+            n/a
+          - else
             - has_access = @certificate_authority.users.include?(user)
-            .btn-group{ data: { toggle: "buttons" } }
-              %label.btn.btn-default.btn-sm{ class: ("active" if has_access), data: { "post-uri" => grant_certificate_authority_user_path(@certificate_authority, user) } }
-                %input{ type: "radio", name: "access_grant" } Yes
-              %label.btn.btn-default.btn-sm{ class: ("active" if !has_access), data: { "post-uri" => revoke_certificate_authority_user_path(@certificate_authority, user) } }
-                %input{ type: "radio", name: "access_grant" } No
-
-:javascript
-  $(()=>{
-    $(".btn[data-post-uri]").click( function () {
-      $.post($(this).data('post-uri'))
-    })
-  })
+            = link_to "Yes", grant_certificate_authority_user_path(@certificate_authority, user), class: (has_access && "has-text-weight-bold"), data: { turbo_method: :post }
+            = link_to "No", revoke_certificate_authority_user_path(@certificate_authority, user), class: (has_access || "has-text-weight-bold"), data: { turbo_method: :post }

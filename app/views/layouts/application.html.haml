@@ -1,71 +1,55 @@
 !!!
 %html
   %head
+    %meta{ content: "text/html; charset=UTF-8", "http-equiv": "Content-Type" }/
     %title
       - if content_for?(:title)
         = content_for(:title) + " —"
       Pakotoa
-    %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0" }
-    = stylesheet_link_tag "application", media: "all", 'data-turbolinks-track': "reload"
-    = javascript_pack_tag "application", 'data-turbolinks-track': "reload"
-    = javascript_include_tag "application", 'data-turbolinks-track': "reload"
+    %meta{ content: "width=device-width,initial-scale=1", name: "viewport" }/
     = csrf_meta_tags
     = csp_meta_tag
+    = stylesheet_link_tag "application", "data-turbo-track": "reload"
+    = javascript_importmap_tags
+    /%link{ rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" }
+    %meta{ name: "viewport", content: "width=device-width, initial-scale=1" }
   %body
-    %nav.navbar.navbar-inverse.navbar-static-top{ role: "navigation" }
+    %nav.navbar.is-primary{ role: "navigation", aria: { label: "main navigation" } }
+      .navbar-brand
+        .navbar-item
+          %strong.has-text-white Pakotoa
+        %a.navbar-burger{ role: "button", aria: { label: "menu", expanded: "false" }, data: { target: "navMenu" } }
+          %span{ aria: { hidden: "true" } }
+          %span{ aria: { hidden: "true" } }
+          %span{ aria: { hidden: "true" } }
+      .navbar-menu
+        .navbar-start
+          = navbar_link_to t(".certificate_authorities"), certificate_authorities_path
+          = navbar_link_to t(".policies"), policies_path
+        .navbar-end
+          - if user_signed_in?
+            = link_to t(".sign_out"), destroy_user_session_path, data: { turbo_method: :delete }, class: "navbar-item"
+          - else
+            = navbar_link_to t(".sign_in"), new_user_session_path
+    %section.section
       .container
-        .navbar-header
-          %button.navbar-toggle{ data: { toggle: "collapse", target: ".navbar-responsive-collapse" } }
-            %span.sr-only= t("toggle_navigation")
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
-          %a.navbar-brand{ href: "/" }
-            %span.name= t("application.name")
-        .collapse.navbar-collapse.navbar-responsive-collapse
-          %ul.nav.navbar-nav
-            %li
-              = link_to t(".policies"), policies_path
-          %ul.nav.navbar-nav.navbar-right
-            - if user_signed_in?
-              %li.dropdown
-                %a.dropdown-toggle{ data: { toggle: "dropdown" }, href: "#" }
-                  %i.fa.fa-user.fa-lg
-                  = current_user.email
-                  %strong.caret
-                %ul.dropdown-menu
-                  %li= link_to(t("devise.shared.links.sign_out"), destroy_user_session_path, method: :delete)
-            - else
-              %li.dropdown
-                = link_to "Sign in", new_user_session_path
-    - if content_for?(:title)
-      .page-title
-        .container
-          %h1.pull-left= content_for(:title)
-          %ul.breadcrumb
-            - if @breadcrumb
-              - @breadcrumb.each do |part|
-                %li= link_to abbr_subject(part[0]), part[1]
-            %li= abbr_subject(content_for(:title))
-    #main{ role: "main" }
-      .container
-        - flash.each do |kind, value|
-          - kind = "success" if kind == "notice"
-          - kind = "danger" if kind == "alert"
-          .alert{ class: "alert-#{kind}" }
-            %button.close{ "data-dismiss" => "alert", type: "button" } &times;
-            = value
-      .container
+        - if content_for?(:title)
+          %h1.title= content_for(:title)
+          %nav.breadcrumb
+            %ul
+              - if @breadcrumb
+                - @breadcrumb.each do |part|
+                  %li= link_to abbr_subject(part[0]), part[1]
+              %li.is-active= link_to abbr_subject(content_for(:title)), "#"
+        - if flash[:notice]
+          .notification.is-success= flash[:notice]
+        - if flash[:alert]
+          .notification.is-danger= flash[:alert]
         = yield
 
-    %footer
-      .container
-        .row
-          .col-sm-6
-            = link_to "Conditions d'utilisation", "#"
-            &bullet;
-            = link_to "Confidentialité", "#"
-            &bullet;
-            = link_to "Sécurité", "#"
-          .col-sm-6.text-right
-            .disabled= t("application.copyright")
+    %footer.footer
+      .content.has-text-centered
+        %p
+          %strong Pakotoa
+          —
+          = t("application.copyright_html")

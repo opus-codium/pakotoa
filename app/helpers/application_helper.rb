@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  def navbar_link_to(text, url, options = {})
+    classes = ["navbar-item"]
+    classes << "is-active" if request.path.start_with?(url)
+    link_to text, url, options.merge(class: classes.join(" "))
+  end
+
   def abbr_subject(subject)
     if subject =~ /CN=(.*)\// then
       $1

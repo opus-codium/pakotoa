@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Étantdonné(/^une autorité de certification "([^"]*)"$/) do |subject|
-  create(:certificate_authority, subject: subject)
+  User.last.certificate_authorities << create(:certificate_authority, subject: subject)
 end
 
 Lorsqu(/^il créé une autorité de certification "([^"]*)"$/) do |subject|
@@ -64,9 +64,17 @@ Alors(/^l'autorité de certification "([^"]*)" peut signer une demande de signat
   csr.sign(key, OpenSSL::Digest::SHA256.new)
 
   visit new_certificate_authority_certificate_path(@certificate_authority)
-  fill_in "Csr", with: csr.to_pem
+  fill_in "Certificate Signing Request", with: csr.to_pem
 
   click_button "Save"
 
   expect(page).to have_content("Certificate was successfully created.")
+end
+
+Alors("il peut créer une autorité de certification avec la policy {string}") do |name|
+  click_on "Certificate Authorities"
+
+  click_on "New Certificate Authority"
+
+  select name, from: "Policy"
 end

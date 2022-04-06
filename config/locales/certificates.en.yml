@@ -1,4 +1,8 @@
 en:
+  activerecord:
+    attributes:
+      certificate:
+        csr: Certificate Signing Request
   certificates:
     form:
       back: Back

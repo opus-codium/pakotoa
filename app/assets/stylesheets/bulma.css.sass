@@ -1,0 +1,36 @@
+@charset "utf-8";
+
+$primary: #045
+$link: #08a
+
+@import "../../../vendor/bulma-0.9.3/bulma/bulma.sass";
+
+input[type=checkbox], input[type=radio]
+  margin-right: 1ex
+
+html
+  background-color: $footer-background-color
+
+body
+  background-color: $white
+
+dl dt
+  font-weight: bold
+  width: 20ex
+  display: inline-block
+  clear: left
+
+dl dd
+  display: inline
+  clear: right
+
+.tabs.is-boxed
+  margin-bottom: 0
+
+.tab-content
+  padding: 15px
+  border: 1px solid #ddd
+  border-top: 0
+
+tbody.sortable tr
+  cursor: move
