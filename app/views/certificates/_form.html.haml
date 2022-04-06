@@ -27,6 +27,7 @@
 
       = f.hidden_field :method, value: :csr
       = f.input :csr, as: :text, input_html: { class: "textarea" }
+      = f.input :subject
       = f.submit t(".save"), class: "button is-primary"
       = link_to t(".back"), @certificate.persisted? ? [@certificate_authority, @certificate] : certificate_authority_certificates_path(@certificate_authority), class: "button"
 -#

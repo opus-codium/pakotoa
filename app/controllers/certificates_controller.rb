@@ -33,7 +33,7 @@ class CertificatesController < ApplicationController
   def create
     case params[:certificate][:method]
     when "csr"
-      @certificate = @certificate_authority.sign_certificate_request(params[:certificate][:csr])
+      @certificate = @certificate_authority.sign_certificate_request(params[:certificate][:csr], subject_override: params[:certificate][:subject])
     when "spkac"
       if params[:public_key].nil?
         @certificate.errors.add(:public_key, :not_set)
