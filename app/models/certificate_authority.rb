@@ -83,13 +83,17 @@ class CertificateAuthority < Certificate
     end
   end
 
-  def sign_certificate_request(req, export_name = nil)
+  def sign_certificate_request(req, subject_override: nil, export_name: nil)
     req = OpenSSL::X509::Request.new(req)
 
     cert = OpenSSL::X509::Certificate.new
     cert.version = 2
     cert.serial = self.next_serial!
-    cert.subject = req.subject
+    if subject_override.blank?
+      cert.subject = req.subject
+    else
+      cert.subject = OpenSSL::X509::Name.parse(subject_override)
+    end
     cert.issuer = self.certificate.subject
     cert.public_key = req.public_key
     cert.not_before = Time.now

@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 Étantdonné(/^une autorité de certification "([^"]*)"$/) do |subject|
-  User.last.certificate_authorities << create(:certificate_authority, subject: subject)
+  click_on "Certificate Authorities"
+  click_on "New Certificate Authority"
+  fill_in "Subject", with: subject
+  click_on "Save"
 end
 
 Lorsqu(/^il créé une autorité de certification "([^"]*)"$/) do |subject|
