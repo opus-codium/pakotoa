@@ -72,6 +72,7 @@ group :development, :test do
   gem "rubocop-rails"
   gem "rubocop-rails_config"
   gem "haml_lint", require: false
+  gem "sqlite3", "~> 1.4" # XXX: activerecord 7.0 wants this version of sqlite3
 end
 
 group :development do
