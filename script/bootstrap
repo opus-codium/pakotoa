@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -ex
+
+bundle config set --local deployment 'true'
+bundle config set --local without 'development test'
+bundle install
+bundle exec rails db:prepare
+bundle exec rails assets:precompile
+
+touch tmp/restart.txt
