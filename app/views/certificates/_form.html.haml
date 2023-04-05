@@ -1,13 +1,13 @@
 -# haml-lint:disable InstanceVariables, InlineStyles, ViewLength
-- params[:method] ||= 'csr'
+- params[:method] ||= "csr"
 .tabs.is-boxed
   %ul
-    %li{ class: ("is-active" if params[:method] == 'csr') }= link_to "CSR", new_certificate_authority_certificate_path(@certificate_authority, method: 'csr'), data: { toggle: "nav" }
-    %li{ class: ("is-active" if params[:method] == 'spkac') }= link_to "SPKAC", new_certificate_authority_certificate_path(@certificate_authority, method: 'spkac'), data: { toggle: "nav", disabled: true }
-    %li{ class: ("is-active" if params[:method] == 'insecure') }= link_to "Insecure", new_certificate_authority_certificate_path(@certificate_authority, method: 'insecure'), data: { toggle: "nav", disabled: true }
+    %li{ class: ("is-active" if params[:method] == "csr") }= link_to "CSR", new_certificate_authority_certificate_path(@certificate_authority, method: "csr"), data: { toggle: "nav" }
+    %li{ class: ("is-active" if params[:method] == "spkac") }= link_to "SPKAC", new_certificate_authority_certificate_path(@certificate_authority, method: "spkac"), data: { toggle: "nav", disabled: true }
+    %li{ class: ("is-active" if params[:method] == "insecure") }= link_to "Insecure", new_certificate_authority_certificate_path(@certificate_authority, method: "insecure"), data: { toggle: "nav", disabled: true }
 
 .tab-content
-  - if params[:method] == 'csr'
+  - if params[:method] == "csr"
     .notification.is-info.is-light
       %p
         This method allows you to directly submit a <em>Certificate Signing Request</em> generated using
@@ -31,7 +31,7 @@
       = f.submit t(".save"), class: "button is-primary"
       = link_to t(".back"), @certificate.persisted? ? [@certificate_authority, @certificate] : certificate_authority_certificates_path(@certificate_authority), class: "button"
 -#
-  - if params[:method] == 'spkac'
+  - if params[:method] == "spkac"
     .notification.is-info.is-light
       %p
         This method, <em>Signed Public Key and Challenge</em>, is similar to the CSR since the certificate private key is never known by the server and cannot be compromised.  After completion, the certificate and the private key will be installed in your web user agent and will have to be exported.
@@ -47,7 +47,6 @@
             %ul
               - @certificate.errors.full_messages.each do |msg|
                 %li= msg
-
         = f.hidden_field :method, value: :spkac
         - @certificate.issuer.policy.subject_attributes.order("position").each_with_index do |attr, i|
           .field
@@ -61,7 +60,7 @@
           %keygen.input{ name: "public_key" }
         = f.submit t(".save"), class: "button is-primary"
         = link_to t(".back"), @certificate.persisted? ? [@certificate_authority, @certificate] : certificate_authority_certificates_path(@certificate_authority), class: "button"
-  - if params[:method] == 'insecure'
+  - if params[:method] == "insecure"
     .notification.is-warning.is-light
       %p
         This method let the server generate both the private key and the certificate (that is, generate a CSR on the server side).
@@ -79,7 +78,6 @@
             %ul
               - @certificate.errors.full_messages.each do |msg|
                 %li= msg
-
         = f.hidden_field :method, value: :insecure
         - @certificate.issuer.policy.subject_attributes.order("position").each_with_index do |attr, i|
           .field
