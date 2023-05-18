@@ -98,8 +98,3 @@ group :test do
   gem "timecop"
   gem "webdrivers"
 end
-
-# FIXME: Workaround for Ruby 2.7
-# https://github.com/rails/rails/pull/44175#issuecomment-1023595691
-gem "net-http"
-gem "uri", "0.10.0"
