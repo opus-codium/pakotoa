@@ -8,7 +8,7 @@
   = f.input :password, hint: t(".leave_blank_if_you_don_t_want_to_change_it"), required: false, input_html: { autocomplete: "new-password" }
   = f.input :password_confirmation, required: false, input_html: { autocomplete: "new-password" }
   = f.input :current_password, hint: t(".we_need_your_current_password_to_confirm_your_changes"), required: true, input_html: { autocomplete: "current-password" }
-  = f.input :locale, collection: [["English", "en"], ["Français", "fr"]], wrapper: "select", include_blank: false
+  = f.input :locale, collection: [%w[English en], %w[Français fr]], wrapper: "select", include_blank: false
   = f.button :submit, t(".update")
 %h3.subtitle= t(".cancel_my_account")
 %p

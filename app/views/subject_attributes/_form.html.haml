@@ -4,6 +4,6 @@
   = f.input :default
   = f.input :min
   = f.input :max
-  = f.input :strategy, collection: ["match", "optional", "supplied"], include_blank: false, wrapper: "select"
+  = f.input :strategy, collection: %w[match optional supplied], include_blank: false, wrapper: "select"
   = f.button :submit
   = link_to t(".back"), subject_attribute.persisted? ? policy_subject_attribute_path(policy, subject_attribute) : policy_subject_attributes_path(policy), class: "button"

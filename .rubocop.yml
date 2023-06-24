@@ -10,3 +10,7 @@ inherit_gem:
 AllCops:
   TargetRubyVersion: 2.7.4
   NewCops: enable
+
+Style/IfUnlessModifier:
+  Exclude:
+    - app/views/*/*.html.haml
