@@ -328,8 +328,7 @@ GEM
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
-    rubocop-rails_config (1.14.3)
-      railties (>= 5.0)
+    rubocop-rails_config (1.15.0)
       rubocop (>= 1.48.0)
       rubocop-ast (>= 1.26.0)
       rubocop-md
@@ -387,7 +386,7 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    unicode-display_width (2.4.2)
+    unicode-display_width (2.5.0)
     uri (0.10.0)
     warden (1.2.9)
       rack (>= 2.0.9)
