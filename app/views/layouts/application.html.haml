@@ -39,8 +39,8 @@
             %ul
               - if @breadcrumb
                 - @breadcrumb.each do |part|
-                  %li= link_to abbr_subject(part[0]), part[1]
-              %li.is-active= link_to abbr_subject(content_for(:title)), "#"
+                  %li= link_to part[0], part[1]
+              %li.is-active= link_to content_for(:title), "#"
         - if flash[:notice]
           .notification.is-success= flash[:notice]
         - if flash[:alert]

@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   end
 
   def certificate_authority_title
-    helpers.abbr_subject(@certificate_authority.subject)
+    @certificate_authority.subject
   end
 
   def policy_title
