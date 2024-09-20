@@ -7,14 +7,6 @@ module ApplicationHelper
     link_to text, url, options.merge(class: classes.join(" "))
   end
 
-  def abbr_subject(subject)
-    if subject =~ /CN=(.*)\// then
-      $1
-    else
-      subject
-    end
-  end
-
   def certificate_icon(certificate, options = {})
     if certificate.revoked_at.nil? && certificate.not_after.future? then
       fa_icon("certificate", options)

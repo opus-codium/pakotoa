@@ -1,4 +1,4 @@
-= content_for(:title, abbr_subject(@certificate_authority.subject))
+= content_for(:title, @certificate_authority.subject)
 
 = simple_form_for @certificate_authority do |f|
   = f.input :current_password
