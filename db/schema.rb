@@ -11,10 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2020_08_25_182819) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
-  create_table "affiliations", id: :serial, force: :cascade do |t|
+  create_table "affiliations", force: :cascade do |t|
     t.integer "user_id"
     t.integer "certificate_authority_id"
     t.datetime "created_at", precision: nil
@@ -23,7 +20,7 @@ ActiveRecord::Schema[7.0].define(version: 2020_08_25_182819) do
     t.index ["user_id"], name: "index_affiliations_on_user_id"
   end
 
-  create_table "certificates", id: :serial, force: :cascade do |t|
+  create_table "certificates", force: :cascade do |t|
     t.string "serial"
     t.integer "issuer_id"
     t.datetime "created_at", precision: nil
@@ -43,7 +40,7 @@ ActiveRecord::Schema[7.0].define(version: 2020_08_25_182819) do
     t.index ["issuer_id"], name: "index_certificates_on_issuer_id"
   end
 
-  create_table "oids", id: :serial, force: :cascade do |t|
+  create_table "oids", force: :cascade do |t|
     t.string "name"
     t.string "short_name"
     t.string "oid"
@@ -52,11 +49,11 @@ ActiveRecord::Schema[7.0].define(version: 2020_08_25_182819) do
     t.string "default_description"
   end
 
-  create_table "policies", id: :serial, force: :cascade do |t|
+  create_table "policies", force: :cascade do |t|
     t.string "name"
   end
 
-  create_table "subject_attributes", id: :serial, force: :cascade do |t|
+  create_table "subject_attributes", force: :cascade do |t|
     t.integer "oid_id"
     t.integer "policy_id"
     t.string "default"
@@ -71,7 +68,7 @@ ActiveRecord::Schema[7.0].define(version: 2020_08_25_182819) do
     t.index ["policy_id"], name: "index_subject_attributes_on_policy_id"
   end
 
-  create_table "users", id: :serial, force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.integer "sign_in_count", default: 0
     t.datetime "current_sign_in_at", precision: nil

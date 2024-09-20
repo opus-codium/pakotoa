@@ -17,12 +17,9 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-      - name: Set up PostgreSQL
-        uses: Harmon758/postgresql-action@v1.0.0
-        with:
-          postgresql user: test
-          postgresql password: password
-          postgresql db: pakotoa_test
+          # XXX: Workaround for older rubygems bug
+          # https://github.com/ruby/setup-ruby/issues/518
+          rubygems: latest
       - name: Rubocop
         run: bundle exec rubocop
       - name: Haml-lint
@@ -30,7 +27,6 @@ jobs:
           bundle exec haml-lint
       - name: Prepare database
         run: |
-          echo -e "test:\n  adapter: postgresql\n  url: postgres://test:password@localhost/pakotoa_test\n  encoding: unicode\n  pool: <%= ENV.fetch('RAILS_MAX_THREADS') { 5 } %>" > config/database.yml
           RAILS_ENV=test bundle exec rails db:setup
       - name: RSpec
         run: |
