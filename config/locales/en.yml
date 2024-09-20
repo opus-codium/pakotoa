@@ -32,7 +32,7 @@
 en:
   application:
     name: Pakotoa
-    copyright_html: Copyright (c) 2013-2022 <a href="https://opus-codium.fr/">Opus-Codium</a>
+    copyright_html: Copyright (c) 2013-2024 <a href="https://opus-codium.fr/">Opus-Codium</a>
   layouts:
     application:
       certificate_authorities: Certificate Authorities

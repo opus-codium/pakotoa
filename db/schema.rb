@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2020_08_25_182819) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_20_192438) do
   create_table "affiliations", force: :cascade do |t|
     t.integer "user_id"
     t.integer "certificate_authority_id"
