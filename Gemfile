@@ -96,5 +96,4 @@ group :test do
   gem "selenium-webdriver"
   gem "simplecov"
   gem "timecop"
-  gem "webdrivers"
 end
