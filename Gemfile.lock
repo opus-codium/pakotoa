@@ -78,7 +78,7 @@ GEM
       mutex_m
       securerandom (>= 0.3)
       tzinfo (~> 2.0)
-    acts_as_list (1.2.3)
+    acts_as_list (1.2.4)
       activerecord (>= 6.1)
       activesupport (>= 6.1)
     addressable (2.8.7)
