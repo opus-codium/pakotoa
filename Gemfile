@@ -93,7 +93,7 @@ group :test do
   gem "capybara-screenshot"
   gem "cucumber-rails", require: false
   gem "factory_bot_rails"
-  gem "selenium-webdriver"
+  gem "selenium-webdriver", "!= 4.29.0"
   gem "simplecov"
   gem "timecop"
 end
