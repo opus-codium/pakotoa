@@ -21,18 +21,18 @@ describe CertificateAuthoritiesController, type: :controller do
     let!(:ca) { create(:certificate_authority, policy: policy, subject: "/C=FR/O=Pakotoa/CN=Test Root CA/emailAddress=pakotoa@example.com") }
 
     it "signs certificates if the policy is matched" do
-      payload = { certificate_authority: {
-        subject: "/C=FR/O=Pakotoa/OU=Unit/CN=Test CA/emailAddress=pakotoa@example.com", issuer_id: ca.id }
-      }
+      payload = {certificate_authority: {
+        subject: "/C=FR/O=Pakotoa/OU=Unit/CN=Test CA/emailAddress=pakotoa@example.com", issuer_id: ca.id
+      }}
       expect {
         post :create, params: payload
       }.to change(CertificateAuthority, :count).by(1)
     end
 
     it "fail if the policy is not matched" do
-      payload = { certificate_authority: {
-        subject: "/C=FR/O=Not Pakotoa/OU=Unit/CN=Test CA/emailAddress=pakotoa@example.com", issuer_id: ca.id }
-      }
+      payload = {certificate_authority: {
+        subject: "/C=FR/O=Not Pakotoa/OU=Unit/CN=Test CA/emailAddress=pakotoa@example.com", issuer_id: ca.id
+      }}
       expect {
         post :create, params: payload
       }.to_not change(CertificateAuthority, :count)

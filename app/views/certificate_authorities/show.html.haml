@@ -1,15 +1,5 @@
 - content_for(:title) { @certificate_authority.subject }
 
-- if false
-  .notification.is-warning
-    %p The Certification Authority's Certificates Revokation List (CLR) needs updating.
-    %p
-      = link_to "", class: "button" do
-        %span.icon
-          = content_tag(:i, "", class: "fa fa-refresh")
-        %span Update the Certificates Revokation List
-      = link_to "Ignore", "", class: "button"
-
 .columns
   .column.is-two-thirds
     %p
@@ -36,7 +26,7 @@
     %p
       %b Policy
       %br
-      - if @certificate_authority.policy then
+      - if @certificate_authority.policy
         = link_to @certificate_authority.policy.name, policy_path(@certificate_authority.policy)
       - else
         None

@@ -14,7 +14,7 @@ class PoliciesController < ApplicationController
     if @policy.save
       redirect_to @policy, notice: "Policy was successfully created."
     else
-      render "new", status: :unprocessable_entity
+      render "new", status: :unprocessable_content
     end
   end
 
@@ -32,7 +32,7 @@ class PoliciesController < ApplicationController
     if @policy.update(policy_params)
       redirect_to @policy, notice: "Policy was successfully updated."
     else
-      render "edit", status: :unprocessable_entity
+      render "edit", status: :unprocessable_content
     end
   end
 
@@ -45,7 +45,8 @@ class PoliciesController < ApplicationController
     end
   end
 
-private
+  private
+
   def policy_params
     params.require("policy").permit("name")
   end

@@ -14,5 +14,5 @@
             n/a
           - else
             - has_access = @certificate_authority.users.include?(user)
-            = link_to "Yes", grant_certificate_authority_user_path(@certificate_authority, user), class: (has_access && "has-text-weight-bold"), data: { turbo_method: :post }
-            = link_to "No", revoke_certificate_authority_user_path(@certificate_authority, user), class: (has_access || "has-text-weight-bold"), data: { turbo_method: :post }
+            = link_to "Yes", grant_certificate_authority_user_path(@certificate_authority, user), class: has_access && "has-text-weight-bold", data: {turbo_method: :post}
+            = link_to "No", revoke_certificate_authority_user_path(@certificate_authority, user), class: has_access || "has-text-weight-bold", data: {turbo_method: :post}

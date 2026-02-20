@@ -61,10 +61,10 @@ Alors(/^l'autorité de certification "([^"]*)" peut signer une demande de signat
   key = OpenSSL::PKey::RSA.new(2048)
 
   csr = OpenSSL::X509::Request.new
-  csr.version = 2
+  csr.version = 0
   csr.public_key = key.public_key
   csr.subject = OpenSSL::X509::Name.parse(subject)
-  csr.sign(key, OpenSSL::Digest::SHA256.new)
+  csr.sign(key, OpenSSL::Digest.new("SHA256"))
 
   visit new_certificate_authority_certificate_path(@certificate_authority)
   fill_in "Certificate Signing Request", with: csr.to_pem

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_19_233607) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_20_182855) do
   create_table "affiliations", force: :cascade do |t|
     t.integer "user_id"
     t.integer "certificate_authority_id"
@@ -47,10 +47,13 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_19_233607) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "default_description"
+    t.index ["name"], name: "index_oids_on_name", unique: true
   end
 
   create_table "policies", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "subject_attributes", force: :cascade do |t|

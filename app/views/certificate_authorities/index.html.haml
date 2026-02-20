@@ -23,6 +23,6 @@
           %code= certificate_authority.serial
         %td
           .badge.pull-right= Certificate.signed_by(certificate_authority.subject).count
-        %td= link_to t(".destroy"), certificate_authority, data: { turbo_method: :delete, turbo_confirm: t(".confirm") }
+        %td= link_to t(".destroy"), certificate_authority, data: {turbo_method: :delete, turbo_confirm: t(".confirm")}
 
 = link_to t(".new"), new_certificate_authority_path, class: "button"

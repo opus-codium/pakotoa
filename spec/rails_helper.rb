@@ -65,7 +65,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   config.before(:suite) do
-    load "#{Rails.root}/db/seeds.rb"
+    load Rails.root.join("db/seeds.rb")
   end
 
   config.after(:suite) do

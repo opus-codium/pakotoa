@@ -3,11 +3,9 @@ on:
   push:
     branches:
       - main
-      - master
   pull_request:
     branches:
       - main
-      - master
 jobs:
   tests:
     runs-on: ubuntu-latest
@@ -17,11 +15,8 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-          # XXX: Workaround for older rubygems bug
-          # https://github.com/ruby/setup-ruby/issues/518
-          rubygems: latest
-      - name: Rubocop
-        run: bundle exec rubocop
+      - name: Standard Ruby
+        run: bundle exec standardrb
       - name: Haml-lint
         run: |
           bundle exec haml-lint

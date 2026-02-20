@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CertificateAuthoritiesController < ApplicationController
-  add_breadcrumb "certificate_authorities.index.title", "certificate_authorities_path", except: :index
+  add_breadcrumb "certificate_authorities.index.title", ["certificate_authorities_path"], except: :index
 
   # GET /certificate_authorities
   # GET /certificate_authorities.json
@@ -51,7 +51,7 @@ class CertificateAuthoritiesController < ApplicationController
     @certificate_authority = current_user.certificate_authorities.new(certificate_authority_params)
 
     if !@certificate_authority.save
-      render "new", status: :unprocessable_entity
+      render "new", status: :unprocessable_content
       return
     end
 
@@ -63,7 +63,7 @@ class CertificateAuthoritiesController < ApplicationController
     certificate = OpenSSL::X509::Certificate.new
 
     subject = OpenSSL::X509::Name.parse(@certificate_authority.subject)
-    if @certificate_authority.issuer then
+    if @certificate_authority.issuer
       @issuer = @certificate_authority.issuer
       issuer_certificate = @issuer.certificate
       issuer_subject = OpenSSL::X509::Name.parse(@certificate_authority.issuer.subject)
@@ -79,7 +79,7 @@ class CertificateAuthoritiesController < ApplicationController
     certificate.subject = subject
     certificate.issuer = issuer_subject
     certificate.public_key = key.public_key
-    certificate.not_before = Time.now
+    certificate.not_before = Time.current
     certificate.not_after = Chronic.parse(@certificate_authority.valid_until)
     ef = OpenSSL::X509::ExtensionFactory.new
     ef.subject_certificate = certificate
@@ -95,12 +95,12 @@ class CertificateAuthoritiesController < ApplicationController
     if @certificate_authority.save
       redirect_to @certificate_authority, notice: "Certificate authority was successfully created."
     else
-      render "new", status: :unprocessable_entity
+      render "new", status: :unprocessable_content
     end
-  rescue Exception => e
+  rescue => e
     @certificate_authority.destroy
     @certificate_authority.errors.add(:issuer_password, e.message + "" + e.backtrace.join("<br/>"))
-    render "new", status: :unprocessable_entity
+    render "new", status: :unprocessable_content
   end
 
   def edit
@@ -113,8 +113,8 @@ class CertificateAuthoritiesController < ApplicationController
     current_password = params[:certificate_authority].delete(:current_password)
     @certificate_authority.assign_attributes(params.require(:certificate_authority).permit(:policy_id, :certify_for, :export_root, :crl_ttl))
 
-    if @certificate_authority.valid? then
-      if @certificate_authority.password != current_password then
+    if @certificate_authority.valid?
+      if @certificate_authority.password != current_password
         @certificate_authority.password = current_password
         key = @certificate_authority.key
         @certificate_authority.password = params[:certificate_authority][:password]
@@ -134,8 +134,9 @@ class CertificateAuthoritiesController < ApplicationController
   end
 
   private
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def certificate_authority_params
-      params.require(:certificate_authority).permit(:subject, :key_length, :password, :password_confirmation, :issuer_id, :issuer_password, :current_password, :policy_id, :export_root, :valid_until, :certify_for, :crl_ttl)
-    end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def certificate_authority_params
+    params.require(:certificate_authority).permit(:subject, :key_length, :password, :password_confirmation, :issuer_id, :issuer_password, :current_password, :policy_id, :export_root, :valid_until, :certify_for, :crl_ttl)
+  end
 end

@@ -2,9 +2,9 @@
 - params[:method] ||= "csr"
 .tabs.is-boxed
   %ul
-    %li{ class: ("is-active" if params[:method] == "csr") }= link_to "CSR", new_certificate_authority_certificate_path(@certificate_authority, method: "csr"), data: { toggle: "nav" }
-    %li{ class: ("is-active" if params[:method] == "spkac") }= link_to "SPKAC", new_certificate_authority_certificate_path(@certificate_authority, method: "spkac"), data: { toggle: "nav", disabled: true }
-    %li{ class: ("is-active" if params[:method] == "insecure") }= link_to "Insecure", new_certificate_authority_certificate_path(@certificate_authority, method: "insecure"), data: { toggle: "nav", disabled: true }
+    %li{ class: ("is-active" if params[:method] == "csr") }= link_to "CSR", new_certificate_authority_certificate_path(@certificate_authority, method: "csr"), data: {toggle: "nav"}
+    %li{ class: ("is-active" if params[:method] == "spkac") }= link_to "SPKAC", new_certificate_authority_certificate_path(@certificate_authority, method: "spkac"), data: {toggle: "nav", disabled: true}
+    %li{ class: ("is-active" if params[:method] == "insecure") }= link_to "Insecure", new_certificate_authority_certificate_path(@certificate_authority, method: "insecure"), data: {toggle: "nav", disabled: true}
 
 .tab-content
   - if params[:method] == "csr"
@@ -26,7 +26,7 @@
               %li= msg
 
       = f.hidden_field :method, value: :csr
-      = f.input :csr, as: :text, input_html: { class: "textarea" }
+      = f.input :csr, as: :text, input_html: {class: "textarea"}
       = f.input :subject
       = f.submit t(".save"), class: "button is-primary"
       = link_to t(".back"), @certificate.persisted? ? [@certificate_authority, @certificate] : certificate_authority_certificates_path(@certificate_authority), class: "button"

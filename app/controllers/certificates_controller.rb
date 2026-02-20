@@ -5,9 +5,9 @@ class CertificatesController < ApplicationController
     @certificate_authority = current_user.certificate_authorities.find(params[:certificate_authority_id])
   end
 
-  add_breadcrumb "certificate_authorities.index.title", "certificate_authorities_path"
-  add_breadcrumb :certificate_authority_title, "certificate_authority_path(@certificate_authority)"
-  add_breadcrumb "certificates.index.title", "certificate_authority_certificates_path(@certificate_authority)", except: :index
+  add_breadcrumb "certificate_authorities.index.title", ["certificate_authorities_path"]
+  add_breadcrumb :certificate_authority_title, ["certificate_authority_path", "@certificate_authority"]
+  add_breadcrumb "certificates.index.title", ["certificate_authority_certificates_path", "@certificate_authority"], except: :index
 
   # GET /certificates
   def index
@@ -52,11 +52,12 @@ class CertificatesController < ApplicationController
         # openssl ca -config config/ssl/openssl.cnf -name CA_foo -spkac /tmp/key.spkac -batch
       end
     when "insecure"
+      # FIXME: Implement this or drop it
     end
     if @certificate.persisted?
       redirect_to [@certificate_authority, @certificate], notice: "Certificate was successfully created."
     else
-      render "new", status: :unprocessable_entity
+      render "new", status: :unprocessable_content
     end
   end
 
@@ -74,8 +75,9 @@ class CertificatesController < ApplicationController
   end
 
   private
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def certificate_params
-      params.require(:certificate).permit(:method, :csr)
-    end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def certificate_params
+    params.require(:certificate).permit(:method, :csr)
+  end
 end

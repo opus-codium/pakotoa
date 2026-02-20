@@ -14,21 +14,21 @@
     /%link{ rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" }
     %meta{ name: "viewport", content: "width=device-width, initial-scale=1" }
   %body
-    %nav.navbar.is-primary{ role: "navigation", aria: { label: "main navigation" } }
+    %nav.navbar.is-primary{ role: "navigation", aria: {label: "main navigation"} }
       .navbar-brand
         .navbar-item
           %strong.has-text-white Pakotoa
-        %a.navbar-burger{ role: "button", aria: { label: "menu", expanded: "false" }, data: { target: "navMenu" } }
-          %span{ aria: { hidden: "true" } }
-          %span{ aria: { hidden: "true" } }
-          %span{ aria: { hidden: "true" } }
+        %a.navbar-burger{ role: "button", aria: {label: "menu", expanded: "false"}, data: {target: "navMenu"} }
+          %span{ aria: {hidden: "true"} }
+          %span{ aria: {hidden: "true"} }
+          %span{ aria: {hidden: "true"} }
       .navbar-menu
         .navbar-start
           = navbar_link_to t(".certificate_authorities"), certificate_authorities_path
           = navbar_link_to t(".policies"), policies_path
         .navbar-end
           - if user_signed_in?
-            = link_to t(".sign_out"), destroy_user_session_path, data: { turbo_method: :delete }, class: "navbar-item"
+            = link_to t(".sign_out"), destroy_user_session_path, data: {turbo_method: :delete}, class: "navbar-item"
           - else
             = navbar_link_to t(".sign_in"), new_user_session_path
     %section.section
@@ -37,9 +37,8 @@
           %h1.title= content_for(:title)
           %nav.breadcrumb
             %ul
-              - if @breadcrumb
-                - @breadcrumb.each do |part|
-                  %li= link_to part[0], part[1]
+              - @breadcrumb&.each do |part|
+                %li= link_to part[0], part[1]
               %li.is-active= link_to content_for(:title), "#"
         - if flash[:notice]
           .notification.is-success= flash[:notice]

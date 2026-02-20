@@ -5,7 +5,7 @@
 end
 
 Étantdonné(/^le certificat "([^"]*)" est révoqué$/) do |subject|
-  Certificate.find_by(subject: subject).update(revoked_at: Time.now)
+  Certificate.find_by(subject: subject).update(revoked_at: Time.zone.now)
 end
 
 Lorsqu("il créé un certificat avec ce CSR:") do |csr|

@@ -12,6 +12,6 @@
       %tr
         %td= link_to policy.name, policy
         %td= link_to t(".edit"), edit_policy_path(policy)
-        %td= link_to t(".destroy"), policy, data: { turbo_method: :delete, turbo_confirm: t(".confirm") }
+        %td= link_to t(".destroy"), policy, data: {turbo_method: :delete, turbo_confirm: t(".confirm")}
 
 = link_to t(".new"), new_policy_path, class: "button"
