@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_20_192438) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_19_233607) do
   create_table "affiliations", force: :cascade do |t|
     t.integer "user_id"
     t.integer "certificate_authority_id"
@@ -31,12 +31,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_20_192438) do
     t.datetime "not_before", precision: nil
     t.datetime "not_after", precision: nil
     t.text "key"
-    t.decimal "next_serial"
     t.integer "policy_id"
     t.string "export_root"
     t.datetime "revoked_at", precision: nil
     t.string "certify_for", default: "2 years from now"
     t.string "crl_ttl", default: "1 week from now"
+    t.string "next_serial"
     t.index ["issuer_id"], name: "index_certificates_on_issuer_id"
   end
 
@@ -81,5 +81,4 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_20_192438) do
     t.string "encrypted_password", default: "", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
-
 end

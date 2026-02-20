@@ -72,7 +72,6 @@ class CertificateAuthoritiesController < ApplicationController
       @issuer = @certificate_authority
       issuer_certificate = certificate
       issuer_subject = subject
-      @certificate_authority.next_serial = Random.rand(2**64)
     end
 
     certificate.version = 2

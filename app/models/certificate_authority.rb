@@ -13,13 +13,13 @@ class CertificateAuthority < Certificate
 
   after_initialize do
     self.key_length ||= 2048
-    self.next_serial ||= Random.rand(2**64)
+    self.next_serial ||= Random.rand(2**64).to_s(16)
     self.valid_until ||= "20 years from now"
   end
 
   def next_serial!
-    serial = self.next_serial.try(:to_i)
-    update!(next_serial: next_serial + 1)
+    serial = Integer(self.next_serial, 16)
+    update!(next_serial: (serial + 1).to_s(16))
     serial
   end
 
