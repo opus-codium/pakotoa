@@ -8,11 +8,11 @@ module ApplicationHelper
   end
 
   def certificate_icon(certificate, options = {})
-    if certificate.revoked_at.nil? && certificate.not_after.future? then
+    if certificate.revoked_at.nil? && certificate.not_after.future?
       fa_icon("certificate", options)
     else
       options[:class] = "text-danger"
-      if certificate.revoked_at then
+      if certificate.revoked_at
         fa_icon("ban", options)
       else
         fa_icon("clock-o", options)

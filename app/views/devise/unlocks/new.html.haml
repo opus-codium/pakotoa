@@ -1,7 +1,7 @@
 %h2.title= t(".resend_unlock_instructions")
-= simple_form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }, data: { turbo: false }) do |f|
+= simple_form_for(resource, as: resource_name, url: unlock_path(resource_name), html: {method: :post}, data: {turbo: false}) do |f|
   = f.error_notification
   = f.full_error :unlock_token
-  = f.input :email, required: true, autofocus: true, input_html: { autocomplete: "email" }
+  = f.input :email, required: true, autofocus: true, input_html: {autocomplete: "email"}
   = f.button :submit, t(".resend_unlock_instructions")
 = render "devise/shared/links"

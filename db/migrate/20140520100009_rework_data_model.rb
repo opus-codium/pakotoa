@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ReworkDataModel < ActiveRecord::Migration[4.2]
-  def change
+  def up
     drop_table :certificate_authorities
 
     rename_column :certificates, :certificate_authority_id, :issuer_id
@@ -13,5 +13,9 @@ class ReworkDataModel < ActiveRecord::Migration[4.2]
     add_column :certificates, :not_after, :datetime
 
     add_column :certificates, :key, :text
+  end
+
+  def down
+    raise ActiveRecord::IrreversibleMigration, "This migration cannot be reverted"
   end
 end

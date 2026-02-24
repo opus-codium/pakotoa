@@ -3,19 +3,28 @@
 class SubjectAttribute < ApplicationRecord
   acts_as_list
 
-  validates :oid_id, presence: true
-  validates :policy_id, presence: true
-  validate :default do
-    validates_length_of :default, minimum: min, allow_blank: true if min
-    validates_length_of :default, maximum: max, allow_blank: true if max
-  end
-  validates :strategy, inclusion: [ "match", "optional", "supplied" ], presence: true
+  validate :default_value_minimum_length, :default_value_maximum_length
+  validates :strategy, inclusion: ["match", "optional", "supplied"], presence: true
   validates_associated :oid, :policy
 
   belongs_to :oid
   belongs_to :policy
 
   before_save do
-    self.description = oid.default_description if self.description.blank?
+    self.description = oid.default_description if description.blank?
+  end
+
+  def default_value_minimum_length
+    if default && min && default.length < min
+      errors.add :default, "does not match minimum lenght requirement"
+      errors.add :min, "is not short enough to accomodate default value"
+    end
+  end
+
+  def default_value_maximum_length
+    if default && max && default.length > max
+      errors.add :default, "does not match maximum length requirement"
+      errors.add :max, "is not large enough to accomodate default value"
+    end
   end
 end

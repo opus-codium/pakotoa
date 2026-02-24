@@ -1,16 +1,2 @@
-plugins:
-  - rubocop-performance
-  - rubocop-rails
-  - rubocop-rspec
-
 inherit_gem:
-  rubocop-rails_config:
-    - config/rails.yml
-
-AllCops:
-  TargetRubyVersion: 2.7.4
-  NewCops: enable
-
-Style/IfUnlessModifier:
-  Exclude:
-    - app/views/*/*.html.haml
+  standard: config/ruby-3.3.yml

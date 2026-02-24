@@ -64,15 +64,12 @@ gem "acts_as_list"
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[mri mingw x64_mingw]
-  gem "listen", "~> 3.3"
+  gem "listen"
   gem "rspec-rails"
-  gem "rubocop"
-  gem "rubocop-performance"
-  gem "rubocop-rspec"
-  gem "rubocop-rails"
-  gem "rubocop-rails_config"
+  gem "standard"
+  gem "standard-rails"
   gem "haml_lint", require: false
-  gem "sqlite3", "~> 1.4" # XXX: activerecord 7.0 wants this version of sqlite3
+  gem "sqlite3"
 end
 
 group :development do

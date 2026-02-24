@@ -4,6 +4,8 @@ class CreatePolicies < ActiveRecord::Migration[4.2]
   def change
     create_table :policies do |t|
       t.string :name
+
+      t.timestamps
     end
 
     # Existing data would be broken

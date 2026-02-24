@@ -56,27 +56,27 @@ SimpleForm.setup do |config|
     b.use :label, class: "label", error_class: "has-text-danger"
     b.use :input, class: "input", error_class: "is-danger" # , valid_class: 'is-success'
     # b.use :label_input
-    b.use :hint,  wrap_with: { tag: :span, class: :help }
+    b.use :hint, wrap_with: {tag: :span, class: :help}
     # b.use :error, wrap_with: { tag: :p, class: 'help is-danger' }
 
     ## full_messages_for
     # If you want to display the full error message for the attribute, you can
     # use the component :full_error, like:
     #
-    b.use :full_error, wrap_with: { tag: :p, class: "help is-danger" }
+    b.use :full_error, wrap_with: {tag: :p, class: "help is-danger"}
   end
 
   config.wrappers :select, tag: :div, class: "field", error_class: :field_with_errors, valid_class: :field_without_errors do |b|
     b.use :html5
     b.use :label, class: "label", error_class: "has-text-danger"
-    b.use :input, wrap_with: { tag: :div, class: "select is-fullwidth" }, error_class: "is-danger"
-    b.use :full_error, wrap_with: { tag: :p, class: "help is-danger" }
+    b.use :input, wrap_with: {tag: :div, class: "select is-fullwidth"}, error_class: "is-danger"
+    b.use :full_error, wrap_with: {tag: :p, class: "help is-danger"}
   end
 
   config.wrappers :checkbox, tag: :div, class: "field" do |b|
     b.use :html5
     b.use :label_input
-    b.use :full_error, wrap_with: { tag: :p, class: "help is-danger" }
+    b.use :full_error, wrap_with: {tag: :p, class: "help is-danger"}
   end
 
   # The default wrapper to be used by the FormBuilder.

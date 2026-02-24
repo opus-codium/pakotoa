@@ -1,5 +1,5 @@
 = simple_form_for [policy, subject_attribute] do |f|
-  = f.input :oid_id, collection: Oid.all.collect { |x| [ "#{x.short_name} (#{x.name}, oid=#{x.oid})", x.id ] }, include_blank: false, wrapper: "select"
+  = f.input :oid_id, collection: Oid.all.collect { |x| ["#{x.short_name} (#{x.name}, oid=#{x.oid})", x.id] }, include_blank: false, wrapper: "select"
   = f.input :description
   = f.input :default
   = f.input :min

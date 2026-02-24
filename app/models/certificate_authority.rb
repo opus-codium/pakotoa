@@ -24,20 +24,18 @@ class CertificateAuthority < Certificate
   end
 
   def key=(key)
-    if self.password.blank? then
+    if password.blank?
       write_attribute(:key, key.to_pem)
     else
       cipher = OpenSSL::Cipher.new("AES-128-CBC")
-      write_attribute(:key, key.export(cipher, self.password))
+      write_attribute(:key, key.export(cipher, password))
     end
   end
 
   def key
     k = read_attribute(:key)
-    if k then
-      OpenSSL::PKey::RSA.new(read_attribute(:key), self.password)
-    else
-      nil
+    if k
+      OpenSSL::PKey::RSA.new(read_attribute(:key), password)
     end
   end
 
@@ -49,11 +47,11 @@ class CertificateAuthority < Certificate
     match_re_parts = []
     policy.subject_attributes.order(:position).each do |attr|
       case attr.strategy
-      when "match" then
+      when "match"
         match_re_parts << "/#{attr.oid.short_name}=([^/]*)"
-      when "supplied" then
+      when "supplied"
         match_re_parts << "/#{attr.oid.short_name}=[^/]*"
-      when "optional" then
+      when "optional"
         match_re_parts << "(?:/#{attr.oid.short_name}=[^/]*)?"
       end
     end
@@ -66,8 +64,8 @@ class CertificateAuthority < Certificate
     # subject to check against, however the issuer subject being supposed to be
     # the certificate's subject, the previous verification if the policy
     # matching the DN fields should be enougth.
-    if self.certificate then
-      issuer_matches = re.match(self.certificate.subject.to_s)
+    if certificate
+      issuer_matches = re.match(certificate.subject.to_s)
       raise "certification Authority \"#{self.subject}\" does not respect it's own policy!" if issuer_matches.nil?
       return issuer_matches.captures == subject_matches.captures
     end
@@ -76,8 +74,8 @@ class CertificateAuthority < Certificate
   end
 
   def sign(certificate)
-    if match_policy(certificate.subject) then
-      certificate.sign(self.key, OpenSSL::Digest::SHA256.new)
+    if match_policy(certificate.subject)
+      certificate.sign(key, OpenSSL::Digest.new("SHA256"))
     else
       raise "does not respect CA policy"
     end
@@ -88,26 +86,26 @@ class CertificateAuthority < Certificate
 
     cert = OpenSSL::X509::Certificate.new
     cert.version = 2
-    cert.serial = self.next_serial!
-    if subject_override.blank?
-      cert.subject = req.subject
+    cert.serial = next_serial!
+    cert.subject = if subject_override.blank?
+      req.subject
     else
-      cert.subject = OpenSSL::X509::Name.parse(subject_override)
+      OpenSSL::X509::Name.parse(subject_override)
     end
-    cert.issuer = self.certificate.subject
+    cert.issuer = certificate.subject
     cert.public_key = req.public_key
-    cert.not_before = Time.now
+    cert.not_before = Time.current
     cert.not_after = Chronic.parse(certify_for)
     ef = OpenSSL::X509::ExtensionFactory.new
     ef.subject_certificate = cert
-    ef.issuer_certificate = self.certificate
+    ef.issuer_certificate = certificate
     cert.add_extension(ef.create_extension("keyUsage", "digitalSignature", true))
     cert.add_extension(ef.create_extension("subjectKeyIdentifier", "hash", false))
     sign(cert)
 
-    self.certificates.create(certificate: cert, export_name: export_name)
-  rescue Exception => e
-    res = self.certificates.build
+    certificates.create(certificate: cert, export_name: export_name)
+  rescue => e
+    res = certificates.build
     res.errors.add(:csr, e.message)
     res
   end
@@ -116,16 +114,16 @@ class CertificateAuthority < Certificate
     crl = OpenSSL::X509::CRL.new
     crl.version = 0
     crl.issuer = certificate.subject
-    crl.last_update = Time.now.utc
+    crl.last_update = Time.current
     crl.next_update = Chronic.parse(crl_ttl)
-    certificates.where("revoked_at IS NOT NULL AND not_after > ?", Time.now).each do |cert|
+    certificates.where("revoked_at IS NOT NULL AND not_after > ?", Time.current).find_each do |cert|
       rev = OpenSSL::X509::Revoked.new
       rev.serial = cert.certificate.serial
       rev.time = cert.revoked_at
 
       crl.add_revoked(rev)
     end
-    crl.sign(key, OpenSSL::Digest::SHA256.new)
+    crl.sign(key, OpenSSL::Digest.new("SHA256"))
     crl
   end
 
@@ -152,7 +150,7 @@ class CertificateAuthority < Certificate
   # reassociate to fix these relationships.
   def self.reassociate
     CertificateAuthority.transaction do
-      CertificateAuthority.all.each do |ca|
+      CertificateAuthority.find_each do |ca|
         cert = OpenSSL::X509::Certificate.new(ca.certificate)
 
         issuer = CertificateAuthority.find_by(subject: unescape_utf8_chars(cert.issuer.to_s))

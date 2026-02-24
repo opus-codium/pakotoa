@@ -11,9 +11,9 @@
       %th Strategy
       %th
       %th
-  %tbody.sortable{ data: { controller: "sortable", drag_url: move_policy_subject_attribute_url(@policy, ":id") } }
+  %tbody.sortable{ data: {controller: "sortable", drag_url: move_policy_subject_attribute_url(@policy, ":id")} }
     - @subject_attributes.each do |attribute|
-      %tr{ data: { id: attribute.id } }
+      %tr{ data: {id: attribute.id} }
         %td
           %i.fa.fa-exchange.fa-rotate-90
           = link_to attribute.oid.name, [@policy, attribute]
@@ -23,6 +23,6 @@
         %td= attribute.max
         %td= attribute.strategy
         %td= link_to "Edit", edit_policy_subject_attribute_path(@policy, attribute)
-        %td= link_to "Destroy", [@policy, attribute], data: { turbo_method: :delete, turbo_confirm: t(".confirm") }
+        %td= link_to "Destroy", [@policy, attribute], data: {turbo_method: :delete, turbo_confirm: t(".confirm")}
 
 = link_to "New Attribute", new_policy_subject_attribute_path(@policy), class: "button"

@@ -23,7 +23,7 @@
         - else
           %td
             - if certificate.revoked_at.nil? && certificate.not_after.future?
-              = link_to t(".revoke"), revoke_certificate_authority_certificate_path(@certificate_authority, certificate), data: { turbo_method: :patch, turbo_confirm: t(".confirm") }
-          %td= link_to t(".destroy"), certificate_authority_certificate_path(@certificate_authority, certificate), data: { turbo_method: :delete, turbo_confirm: t(".confirm") }
+              = link_to t(".revoke"), revoke_certificate_authority_certificate_path(@certificate_authority, certificate), data: {turbo_method: :patch, turbo_confirm: t(".confirm")}
+          %td= link_to t(".destroy"), certificate_authority_certificate_path(@certificate_authority, certificate), data: {turbo_method: :delete, turbo_confirm: t(".confirm")}
 
 = link_to t(".new"), new_certificate_authority_certificate_path(@certificate_authority), class: "button"

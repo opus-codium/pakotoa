@@ -40,4 +40,4 @@
       - if @certificate.revoked_at.nil?
         %p.menu-label Danger zone
         %ul.menu-list
-          = link_to t(".revoke"), revoke_certificate_authority_certificate_path(@certificate_authority, @certificate), data: { turbo_method: :patch, turbo_confirm: t(".confirm") }
+          = link_to t(".revoke"), revoke_certificate_authority_certificate_path(@certificate_authority, @certificate), data: {turbo_method: :patch, turbo_confirm: t(".confirm")}

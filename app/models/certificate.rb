@@ -14,13 +14,13 @@ class Certificate < ApplicationRecord
   end
 
   before_validation do
-    if certificate_changed? then
-      cert = self.certificate
+    if certificate_changed?
+      cert = certificate
 
-      self.subject    = Certificate.unescape_utf8_chars(cert.subject.to_s)
-      self.serial     = cert.serial.to_s(16)
+      self.subject = Certificate.unescape_utf8_chars(cert.subject.to_s)
+      self.serial = cert.serial.to_s(16)
       self.not_before = cert.not_before
-      self.not_after  = cert.not_after
+      self.not_after = cert.not_after
     end
   end
 
@@ -31,14 +31,14 @@ class Certificate < ApplicationRecord
     # It MUST be unique for each certificate issued by a given CA (i.e., the
     # issuer name and serial number identify a unique certificate).
 
-    if Certificate.where(issuer_id: issuer_id, serial: serial).any? then
+    if Certificate.where(issuer_id: issuer_id, serial: serial).any?
       errors.add(:serial, "already taken")
       res = false
     end
 
     # Also check that the certificate subject will not clash with another
     # certificate
-    if Certificate.where("issuer_id = ? AND subject = ? AND revoked_at IS NULL AND not_after > ?", issuer_id, subject, Time.now).any? then
+    if Certificate.where("issuer_id = ? AND subject = ? AND revoked_at IS NULL AND not_after > ?", issuer_id, subject, Time.current).any?
       errors.add(:subject, "clash with another valid certificate")
       res = false
     end
@@ -47,13 +47,11 @@ class Certificate < ApplicationRecord
   end
 
   after_create do
-    if issuer && !export_name.blank? && !issuer.export_root.blank? then
+    if issuer && !export_name.blank? && !issuer.export_root.blank?
       filename = File.join(issuer.export_root, export_name)
       Rails.logger.info("Exporting signed certificate to #{filename}")
       FileUtils.mkdir_p(File.dirname(filename))
-      open(filename, "w") do |io|
-        io.write(certificate.to_pem)
-      end
+      File.write(filename, certificate.to_pem)
     end
   end
 

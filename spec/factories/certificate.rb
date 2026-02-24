@@ -16,8 +16,8 @@ FactoryBot.define do
       cert.subject = OpenSSL::X509::Name.parse(certificate.subject)
       cert.issuer = certificate.issuer.certificate.subject
       cert.public_key = key.public_key
-      cert.not_before = Time.now
-      cert.not_after = Time.now + 10.minutes
+      cert.not_before = Time.current
+      cert.not_after = 10.minutes.from_now
       ef = OpenSSL::X509::ExtensionFactory.new
       ef.subject_certificate = cert
       ef.issuer_certificate = certificate.issuer.certificate

@@ -7,12 +7,17 @@ class ApplicationController < ActionController::Base
 
   def add_breadcrumb(title, url)
     @breadcrumb ||= []
-    if Symbol === title then
-      title = send(title)
+    title = if title.is_a?(Symbol)
+      send(title)
     else
-      title = I18n.t(title)
+      I18n.t(title)
     end
-    url = eval(url) if /_url|_path/.match?(url)
+    if url.is_a?(Array)
+      method, *args = url
+      args.collect! { |arg| instance_variable_get(arg) }
+      params = [method] + args
+      url = send(*params)
+    end
     @breadcrumb << [title, url]
   end
 
@@ -31,7 +36,7 @@ class ApplicationController < ActionController::Base
   end
 
   def apply_user_preferences
-    if user_signed_in? then
+    if user_signed_in?
       Time.zone = current_user.time_zone
       # I18n.locale = current_user.locale
     end

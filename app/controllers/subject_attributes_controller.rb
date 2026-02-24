@@ -5,8 +5,8 @@ class SubjectAttributesController < ApplicationController
     @policy = Policy.find(params[:policy_id])
   end
 
-  add_breadcrumb "policies.index.title", "policies_path"
-  add_breadcrumb :policy_title, "policy_path(@policy)", except: :index
+  add_breadcrumb "policies.index.title", ["policies_path"]
+  add_breadcrumb :policy_title, ["policy_path", "@policy"], except: :index
 
   # GET /attributes
   def index
@@ -34,7 +34,7 @@ class SubjectAttributesController < ApplicationController
     if @subject_attribute.save
       redirect_to [@policy, @subject_attribute], notice: "Subject attribute was successfully created."
     else
-      render "new", status: :unprocessable_entity
+      render "new", status: :unprocessable_content
     end
   end
 
@@ -44,7 +44,7 @@ class SubjectAttributesController < ApplicationController
     if @subject_attribute.update(subject_attribute_params)
       redirect_to [@policy, @subject_attribute], notice: "Subject attribute was successfully updated."
     else
-      render "edit", status: :unprocessable_entity
+      render "edit", status: :unprocessable_content
     end
   end
 
@@ -62,8 +62,9 @@ class SubjectAttributesController < ApplicationController
   end
 
   private
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def subject_attribute_params
-      params.require(:subject_attribute).permit(:oid_id, :description, :default, :min, :max, :strategy)
-    end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def subject_attribute_params
+    params.require(:subject_attribute).permit(:oid_id, :description, :default, :min, :max, :strategy)
+  end
 end

@@ -30,7 +30,7 @@ describe CertificatesController, type: :controller do
     csr = OpenSSL::X509::Request.new
     csr.subject = OpenSSL::X509::Name.parse(csr_subject)
     csr.public_key = key.public_key
-    csr.sign(key, OpenSSL::Digest::SHA256.new)
+    csr.sign(key, OpenSSL::Digest.new("SHA256"))
   end
 
   describe "policy" do
@@ -39,7 +39,7 @@ describe CertificatesController, type: :controller do
       it "signes CSR when policy is matched" do
         payload = {
           certificate_authority_id: ca,
-          certificate: { method: "csr", csr: csr }
+          certificate: {method: "csr", csr: csr}
         }
         expect {
           post :create, params: payload
@@ -52,7 +52,7 @@ describe CertificatesController, type: :controller do
       it "fail if the policy is not matched" do
         payload = {
           certificate_authority_id: ca,
-          certificate: { method: "csr", csr: csr }
+          certificate: {method: "csr", csr: csr}
         }
         expect {
           post :create, params: payload
