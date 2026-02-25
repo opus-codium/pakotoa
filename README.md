@@ -1,24 +1,30 @@
-# README
+# Pakotoa
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A web application to manage X.509 Public Key Infrastructures (PKI).
 
-Things you may want to cover:
+## Goals
 
-* Ruby version
+* Create and manage Certificate Authorities (CA), including chained/intermediate CAs;
+* Issue Certificates from Certificate Signing Requests (CSR);
+* Revoke Certificates and issue Certificate Revocation Lists (CRL);
+* Manage Policies to impose constraints on Certificate issuance;
 
-* System dependencies
+## Setup
 
-* Configuration
+Install as a regular Ruby on Rails application.  Setup the database with:
 
-* Database creation
+```sh-session
+bundle exec rails db:setup
+```
 
-* Database initialization
+An initial user account must be created with:
 
-* How to run the test suite
+```sh-session
+bundle exec rails console
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+Then, in the Rails console:
 
-* Deployment instructions
-
-* ...
+```ruby
+User.create(email: "bob@example.com", password: "secret")
+```
