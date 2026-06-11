@@ -18,7 +18,7 @@ class CertificateAuthority < Certificate
   end
 
   def next_serial!
-    serial = Integer(self.next_serial, 16)
+    serial = Integer(next_serial, 16)
     update!(next_serial: (serial + 1).to_s(16))
     serial
   end
