@@ -10,6 +10,8 @@ require "simplecov"
 require "cucumber/rails"
 require "capybara-screenshot/cucumber"
 
+SimpleCov.start "rails"
+
 # require 'capybara/poltergeist'
 # Capybara.default_driver = :poltergeist
 # Capybara.javascript_driver = :poltergeist
